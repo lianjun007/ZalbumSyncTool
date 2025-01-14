@@ -10,5 +10,7 @@ docker run -d -it \
   --device /dev/fuse:/dev/fuse \
   -p 7777:7777 \
   -v /:/zspace \
+  --memory=512m \
+  --cpus=1 \
   lianjun007/zalbumsynctool:v1.0.0
 ```
