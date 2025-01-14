@@ -1,0 +1,58 @@
+.largeTitle {
+    font-size: 34px;
+    font-weight: bold;
+    margin-top: 7px;
+    margin-bottom: 8px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+.text {
+    font-size: 17px;
+    margin: 10px 0;
+}
+
+.rightText {
+    font-size: 17px;
+    margin: 10px 0;
+    color: #919195;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.noOverflowRightText {
+    font-size: 17px;
+    margin: 10px 0;
+    color: #919195;
+}
+
+.subText {
+    font-size: 15px;
+    margin: 0;
+    color: #2b2b2b;
+}
+
+.subRightText {
+    font-size: 15px;
+    margin: 0;
+    color: #919195;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.captionTop {
+    font-size: 12px;
+    margin: 5px 20px 0 20px;
+    color: #7b7b7b;
+}
+
+.caption {
+    font-size: 12px;
+    margin: 0px 20px;
+    color: #7b7b7b;
+}

@@ -1,0 +1,156 @@
+body {
+    background-color: #F2F2F6;
+    max-width: 800px;
+    margin: 0px auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "PingFang HK", "PingFang TC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+hr {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-inline-start: 20px;
+    border: none;
+    border-top: 0.01px solid #BFBABA;
+}
+
+select {
+    width: 100%;
+    font-size: 17px;
+    border: none;
+    color: #919195;
+    appearance: none;
+    padding: 5px 20px 5px 5px;
+    margin-right: -5px;
+    margin-left: 15px;
+    background-color: #FFFFFF00;
+    background-image: url('/client/image/chevron.up.chevron.down.png');
+    background-repeat: no-repeat;
+    background-position: right 5px center;
+    background-size: 9px;
+    text-align-last: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: rtl;
+    border-radius: 8px
+}
+
+input {
+    color: #919195;
+    width: 100%;
+    border: none;
+    height: auto;
+    font-size: 17px;
+    margin: 0 -5px;
+    padding: 5px;
+    border-radius: 8px
+}
+
+textarea {
+    border: none;
+    width: calc(100% - 40px);
+    height: 200px;
+    font-size: 15px;
+    padding: 4px 0;
+    margin: 4px 20px 0 20px;
+    line-height: 22px;
+    color: #383A3B;
+    resize: none;
+}
+
+.module {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 2px 0;
+}
+
+.centerModule {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 2px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.listRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    align-items: center;
+}
+
+.listRow p {
+    white-space: nowrap;
+}
+
+.spaceBetween {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    align-items: center;
+}
+
+.listRowEndButton {
+    background-color: #FFFFFF00;
+    align-content: center;
+    color: #007AFF;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.listRowEndButtonImage {
+    width: auto;
+    height: auto;
+    transition: transform 0.2s ease-in-out;
+    margin-right: 5px;
+}
+
+.listRowEndButtonImageRotate {
+    transform: rotate(-180deg);
+    transition: transform 0.2s ease-in-out;
+}
+
+.zalbumMountPath {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: rtl;
+    text-align: right;
+}
+
+.verticalDividers {
+    border-left: 0.01px solid #BFBABA;
+    height: 128px;
+    margin: 10px 0;
+}
+
+.link {
+    border-radius: 13px;
+    background-color: #FFFFFF;
+    width: 60px;
+    height: 26px;
+    margin: 10px auto;
+    align-content: center;
+    text-align: center;
+    font-size: 12px;
+}

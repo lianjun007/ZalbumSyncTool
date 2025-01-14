@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>极相册同步工具</title>
+    <link rel="icon" href="/client/image/zalbumLogo.png" type="image/png">
+
+    <link rel="stylesheet" href="/client/css/style.css">
+    <link rel="stylesheet" href="/client/css/switchButton.css">
+    <link rel="stylesheet" href="/client/css/font.css">
+    <link rel="stylesheet" href="/client//css/editExtensionControl.css">
+</head>
+
+<body>
+    <p class="largeTitle">极相册同步工具</p>
+
+    <!-- 设置模块 -->
+    <div class="module" style="padding-bottom: 6px;">
+        <!-- 同步极相册的开关 -->
+        <div class="listRow">
+            <p class="text">同步状态</p>
+            <label class="switch">
+                <input type="checkbox" id="syncToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <hr>
+
+        <!-- 极相册挂载路径查看 -->
+        <div id="zalbumFolderSetting" class="listRow">
+            <p class="text">极相册挂载路径</p>
+            <button id="zalbumFolderNumberButton" class="listRowEndButton" style="color: #919195;">
+                <img src="/client/image/chevron.down.png" class="listRowEndButtonImage"
+                    style="width: 10px; margin-right: 0; margin-left: 5px">
+            </button>
+        </div>
+        <hr>
+
+        <div id="zalbumPathShowList" style="display: none;"></div>
+
+        <!-- 极相册文件夹设置 -->
+        <div class="listRow">
+            <p class="text">目标路径</p>
+            <select id="targetFolder" onchange="fetchSubPaths()"></select>
+        </div>
+        <hr>
+
+        <!-- 同步模式设置 -->
+        <div class="listRow">
+            <p class="text">同步模式</p>
+            <select id="syncModeSelect" onchange="editSyncMode()">
+                <option value="oneWay">单向</option>
+                <option value="twoWay">双向</option>
+            </select>
+        </div>
+        <hr>
+
+        <!-- 同步的文件类型设置 -->
+        <div class="listRow">
+            <p class="text">同步的文件类型</p>
+            <div class="spaceBetween">
+                <button id="cancelEditExtensionButton" class="listRowEndButton"
+                    style="margin-right: 10px; color: red; display: none;">
+                    <img src="/client/image/xmark.circle.png" class="listRowEndButtonImage webkitMarginTopAddOne"
+                        style="height: 15px;">
+                    <p class="text">取消</p>
+                </button>
+                <button id="confirmEditExtensionButton" class="listRowEndButton" style="color: #31D74A; display: none;">
+                    <img src="/client/image/checkmark.circle.png" class="listRowEndButtonImage webkitMarginTopAddOne"
+                        style="height: 15px;">
+                    <p class="text">确认</p>
+                </button>
+                <button id="editExtensionButton" class="listRowEndButton">
+                    <img src="/client/image/pencil.and.outline.png" class="listRowEndButtonImage webkitMarginTopAddOne"
+                        style="height: 16px; margin-top: 1px;">编辑
+                </button>
+            </div>
+        </div>
+
+        <div id="extensionShowList"></div>
+        <hr id="inputExtensionModuleAboveHR" style="display: none;">
+
+        <div id="inputExtensionModule" class="listRow" style="display: none; margin-top: 5px;">
+            <input type="text" id="extensionInput" placeholder="输入扩展名" style="margin-right: 15px;">
+            <button id="addExtensionButton" class="listRowEndButton">
+                <img src="/client/image/plus.square.png" class="listRowEndButtonImage webkitMarginTopAddOne"
+                    style="height: 14px;">添加
+            </button>
+        </div>
+    </div>
+
+    <!-- 设置模块说明 -->
+    <p class="captionTop">同文件系统（参照“极相册挂载路径“选择）采用硬链接，否则复制。添加空（非空格）扩展名同步无扩展名文件，清空扩展则为全文件同步，双向同步模式敬请期待。</p>
+
+    <p class="title" style="font-size: 28px;">状态和日志</p>
+
+    <!-- 状态模块 -->
+    <div class="module">
+        <div class="listRow">
+            <div style="width: 100%; margin-right: 10px; padding-bottom: 11px;">
+                <div class="spaceBetween">
+                    <p class="text">极相册统计</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">文件夹：</p>
+                    <p id="folderCount" class="subRightText">0</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">同步文件：</p>
+                    <p id="matchingFileCount" class="subRightText">0</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">其他文件：</p>
+                    <p id="nonMatchingFileCount" class="subRightText">0</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">实况照片：</p>
+                    <p id="zalbumMovFileCount" class="subRightText">0</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">文件体积：</p>
+                    <p id="totalSize" class="subRightText">0 GB</p>
+                </div>
+            </div>
+
+            <div class="verticalDividers"></div>
+
+            <div style="width: 100%; margin-left: 10px; padding-bottom: 11px;">
+                <div class="spaceBetween">
+                    <p class="text">目标路径统计</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">文件夹：</p>
+                    <p id="folderCount2" class="subRightText">0</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">同步文件：</p>
+                    <p id="matchingFileCount2" class="subRightText">0</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">其他文件：</p>
+                    <p id="nonMatchingFileCount2" class="subRightText">0</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">实况照片：</p>
+                    <p id="zalbumMovFileCount2" class="subRightText">0</p>
+                </div>
+                <div class="spaceBetween">
+                    <p class="subText">文件体积：</p>
+                    <p id="totalSize2" class="subRightText">0 GB</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <div class="listRow">
+            <p class="text">所有文件体积：</p>
+            <p id="allSize" class="rightText">0 GB</p>
+        </div>
+    </div>
+
+    <!-- 日志模块 -->
+    <div class="module" style="margin-top: 18px;">
+        <div class="listRow">
+            <p class="text">日志保留数量</p>
+            <input type="text" value="1000"
+                style="text-align: right; margin-left: 15px; margin-right: -22px; padding-right: 27px">
+            <p class="noOverflowRightText">条</p>
+        </div>
+        <hr>
+
+        <textarea id="syncLog" readonly></textarea>
+        <hr>
+
+        <button id="logDownload" class="listRowEndButton" style="padding-left: 20px; width: 100%;">
+            <img src="/client/image/square.and.arrow.down.png" class="listRowEndButtonImage webkitMarginTopAddOne"
+                style="height: 19px; margin-top: -1px;">
+            <p class="text">下载日志</p>
+        </button>
+    </div>
+
+    <!-- 关于我们 -->
+    <div class="module" style="margin-top: 18px;">
+        <div id="aboutWe" class="listRow">
+            <p class="text">关于我们</p>
+            <button class="listRowEndButton">
+                <p class="rightText">1.0.0</p>
+                <img src="/client/image/chevron.forward.png" class="listRowEndButtonImage"
+                    style="width: 8px; margin-right: 0; margin-left: 5px">
+            </button>
+        </div>
+    </div>
+
+    <p id="statusUnlink" class="link" style="color: red;">未连接</p>
+    <p id="statusLink" class="link" style="color: #31D74A; display: none;">已连接</p>
+
+    <script src="/client/script/style.js"></script>
+    <script src="/client/script/webSocket.js"></script>
+    <script>
+        document.getElementById("aboutWe").addEventListener("click", () => {
+            window.location.assign("/client/view/aboutWe.html");
+        });        
+    </script>
+
+    <script src="/client/script/config/zalbumMountPath.js"></script>
+    <script src="/client/script/config/targetPath.js"></script>
+    <script src="/client/script/config/syncMode.js"></script>
+    <script src="/client/script/config/extension.js"></script>
+
+    <script src="/client/script/log/statistics.js"></script>
+    <script src="/client/script/log/log.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+{
+    "name": "folder-sync",
+    "version": "1.0.0",
+    "description": "Real-time folder sync tool with hard link and format-specific logic",
+    "main": "sync.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "chokidar": "^3.5.3",
+      "express": "^4.18.2",
+      "ws": "^8.13.0",
+      "sqlite3": "^5.1.6"
+    }
+  }

@@ -1,0 +1,13 @@
+{
+  "syncMode": "twoWay",
+  "extensions": [
+    "MOV",
+    "MP4",
+    "JPG",
+    "PNG",
+    "HEIC",
+    "JPEG",
+    "MKV"
+  ],
+  "targetPath": "/"
+}
