@@ -21,7 +21,8 @@
     </button>
 
     <div class="centerModule" style="height: 150px; padding: 10px;">
-        <img src="/client/image/zalbumLogo.png" style="width: 60px; margin-top: 10px; filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.2));">
+        <img src="/client/image/zalbumLogo.png"
+            style="width: 60px; margin-top: 10px; filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.2));">
         <p class="title">极相册同步工具</p>
     </div>
 
@@ -38,24 +39,56 @@
         </div>
         <hr>
 
-        <div class="listRow">
+        <div id="zalbumSyncTool" class="listRow">
             <p class="text">项目主页</p>
-            <p class="rightText">LianJun > 项目 > 极相册同步工具</p>
+            <div class="listRowEndButton">
+                <p class="rightText">LianJun > 项目 > 极相册同步工具</p>
+                <img src="/client/image/chevron.forward.png" class="listRowEndButtonImage"
+                    style="width: 8px; margin-right: 0; margin-left: 5px">
+            </div>
         </div>
         <hr>
 
-        <div class="listRow">
+        <div id="gitHubPage" class="listRow">
             <p class="text">GitHub</p>
-            <p class="rightText">lianjun007/ZalbumSyncTool</p>
+            <div class="listRowEndButton">
+                <p class="rightText">lianjun007/ZalbumSyncTool</p>
+                <img src="/client/image/chevron.forward.png" class="listRowEndButtonImage"
+                    style="width: 8px; margin-right: 0; margin-left: 5px">
+            </div>
         </div>
     </div>
 
     <div class="module" style="margin-top: 20px;">
-        <div class="listRow">
+        <div id="LianJunHomePage" class="listRow">
             <p class="text">作者</p>
-            <p class="rightText">LianJun</p>
+            <div class="listRowEndButton">
+                <p class="rightText">LianJun</p>
+                <img src="/client/image/chevron.forward.png" class="listRowEndButtonImage"
+                    style="width: 8px; margin-right: 0; margin-left: 5px">
+            </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById("zalbumSyncTool").addEventListener("click", () => {
+            fetchdata("zalbumsynctool", "homepage");
+        });
+        document.getElementById("gitHubPage").addEventListener("click", () => {
+            fetchdata("zalbumsynctool", "githubpage");
+        });
+        document.getElementById("LianJunHomePage").addEventListener("click", () => {
+            fetchdata("lianjun", "homepage");
+        });
+
+        function fetchdata(para, para2) {
+            fetch("https://fetchdata.lianjun.me")
+            .then(response => response.json())
+            .then(data => {
+                window.location.assign(data[para][para2]);
+            });
+        }
+    </script>
 
     <script src="/client/script/style.js"></script>
     <script src="/client/script/aboutWe.js"></script>
