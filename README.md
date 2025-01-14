@@ -8,7 +8,7 @@ docker run -d -it \
   --privileged=true \
   --restart=always \
   --device /dev/fuse:/dev/fuse \
-  -p 23001:7777 \
+  -p 7777:7777 \
   -v /:/zspace \
   lianjun007/zalbumsynctool:v1.0.0
 ```
