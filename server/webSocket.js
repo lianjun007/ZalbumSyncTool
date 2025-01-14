@@ -8,6 +8,10 @@ const { logToFile, logLevels } = require("./log");
 
 let clients = [];
 let folderWatcher = null;
+let targetStatistics = false;
+function getTargetStatistics() {
+    return targetStatistics;
+}
 
 // 通知所有连接的客户端刷新页面
 function notifyClients() {
@@ -21,10 +25,17 @@ function sendOnline() {
     clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
             client.send("online");
+            // 同步是否开启
             if (folderWatcher === null) {
                 client.send("closeSync");
             } else {
                 client.send("openSync");
+            };
+            // 目标文件夹统计是否开启
+            if (targetStatistics) {
+                client.send("targetStatisticsOpen");
+            } else {
+                client.send("targetStatisticsClose");
             };
         };
     });
@@ -69,6 +80,7 @@ function webSocketServerConnection(webSocketServer) {
 
         ws.on("message", (message) => {
             const data = JSON.parse(message);
+            // 控制同步开关
             if (data.action === "startSync") {
                 if (folderWatcher) folderWatcher.close();
 
@@ -87,9 +99,18 @@ function webSocketServerConnection(webSocketServer) {
                     folderWatcher = null;
                 }
                 logToFile("同步已停止。", logLevels.INFO);
+            };
+
+            // 控制目标路径统计开关
+            if (data.action === "targetStatisticsOpen") {
+                targetStatistics = true
+                logToFile("目标路径统计开关开启。", logLevels.INFO);
+            } else if (data.action === "targetStatisticsClose") {
+                targetStatistics = false
+                logToFile("目标路径统计开关关闭。", logLevels.INFO);
             }
         });
     });
 }
 
-module.exports = { webSocketServerConnection, notifyClients };
+module.exports = { webSocketServerConnection, notifyClients, getTargetStatistics };

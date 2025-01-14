@@ -14,6 +14,7 @@ function statusLinkDisplay(isLink) {
 let linkRara = 0;
 let webSocketclient = null;
 const syncToggle = document.getElementById("syncToggle");
+const targetStatistics = document.getElementById("targetStatistics");
 
 // WebSocket 连接函数
 async function connectWebSocket() {
@@ -68,6 +69,12 @@ function handleWebSocketMessage(message) {
         case "closeSync":
             syncToggle.checked = false;
             break;
+        case "targetStatisticsOpen":
+            targetStatistics.checked = true;
+            break;
+        case "targetStatisticsClose":
+            targetStatistics.checked = false;
+            break;
         default:
             console.log("未知消息:", message);
             break;
@@ -93,6 +100,15 @@ syncToggle.addEventListener("change", () => {
     const message = syncToggle.checked
         ? JSON.stringify({ action: "startSync" })
         : JSON.stringify({ action: "stopSync" });
+
+    webSocketclient.send(message);
+});
+
+// 目标路径统计开关控制
+targetStatistics.addEventListener("change", () => {
+    const message = targetStatistics.checked
+        ? JSON.stringify({ action: "targetStatisticsOpen" })
+        : JSON.stringify({ action: "targetStatisticsClose" });
 
     webSocketclient.send(message);
 });

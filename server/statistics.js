@@ -5,6 +5,7 @@ const router = express.Router();
 
 const { readConfig } = require("./file");
 const { getZalbumAllMountPath, getZalbumMovPath } = require("./zalbumPath");
+const { getTargetStatistics } = require("./webSocket");
 
 router.get("/", async (req, res) => {
     const data = await analyzeDirectories();
@@ -44,7 +45,9 @@ async function analyzeDirectories() {
         await traverse(dirPath);
     }
 
-    await traverse2(config.targetPath);
+    if (getTargetStatistics()) {
+        await traverse2(config.targetPath);
+    }
 
     async function traverse(currentPath) {
         const entries = fs.readdirSync(currentPath, { withFileTypes: true });
