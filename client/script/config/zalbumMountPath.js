@@ -46,7 +46,7 @@ async function fetchPath() {
                     const divRow1 = document.createElement("div");
                     divRow1.classList.add("listRow");
                     divRow1.innerHTML = `
-                        <p class="text" style="width: 200px;">用户ID</p>
+                        <p class="text" style="width: 200px;">用户 ID</p>
                         <p class="text" style="width: 100%; text-align: right;">地址</p>
                         `;
                     zalbumPathShowList.appendChild(divRow1);
