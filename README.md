@@ -19,7 +19,7 @@ docker run -d -it \
   --cpus=1 \
   lianjun007/zalbumsynctool:v1.0.0
 ```
-视频教程前往我的主页 [LianJun 主页](https://lianjun.me)，然后前往抖音 / 哔哩哔哩查看视频教程
+视频教程 [抖音](https://v.douyin.com/iyKUUhDP/)
 
 ## 最新版本 v1.0.0 20250114
 
