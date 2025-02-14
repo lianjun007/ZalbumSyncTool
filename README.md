@@ -68,7 +68,7 @@
 
 ## Docker 部署
 
-极空间打开 SSH 功能，然后直接运行下列 docker run 命令。
+极空间打开 SSH 功能并且使用工具连接，然后使用 `sudo -i` 命令并且输入管理员账户密码进行提权，最后运行下列 `docker run` 命令即可。
 
 ```sh
 docker run -d -it \
