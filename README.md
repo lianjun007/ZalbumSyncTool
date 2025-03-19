@@ -78,7 +78,7 @@ docker run -d -it \
   lianjun007/zalbumsynctool:latest
 ```
 
-等待容器成功启动后日志输出`极相册同步工具服务器已启动`，然后前往浏览器输入部署设备 IP 和指定端口号（如 7777）进入 WebUI。
+等待容器成功启动后日志输出 `极相册同步工具服务器已启动，端口 7777`，然后前往浏览器输入部署设备 IP 和指定端口号（如 7777）进入 WebUI。
 
 视频教程链接：[抖音](https://v.douyin.com/iyKUUhDP/)、[哔哩哔哩](https://www.bilibili.com/video/BV1mcceePEjy?vd_source=cdd3f9f3f8659d99f09501f1764b7438)
 
@@ -112,5 +112,5 @@ npm install
 node /app/server.js
 ```
 
-等待控制台输出`极相册同步工具服务器已启动`，然后前往浏览器输入部署设备 IP 和指定端口号（如 7777）进入 WebUI。
+等待控制台输出 `极相册同步工具服务器已启动，端口 7777`，然后前往浏览器输入部署设备 IP 和指定端口号（如 7777）进入 WebUI。
 
