@@ -80,6 +80,8 @@ docker run -d -it \
 
 等待容器成功启动后日志输出 `极相册同步工具服务器已启动，端口 7777`，然后前往浏览器输入部署设备 IP 和指定端口号（如 7777）进入 WebUI。
 
+如果无法下载镜像（比如因为网络问题），可以前往 Release 界面下载其中的 ZalbumSyncTool_v1.0.1.tar.gz 文件，使用 `gunzip /该文件目录` 解压为 ZalbumSyncTool_v1.0.1.tar 后直接导入镜像到极空间使用。
+
 视频教程链接：[抖音](https://v.douyin.com/iyKUUhDP/)、[哔哩哔哩](https://www.bilibili.com/video/BV1mcceePEjy?vd_source=cdd3f9f3f8659d99f09501f1764b7438)
 
 ## Node 部署
