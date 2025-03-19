@@ -75,7 +75,7 @@ docker run -d -it \
   -v /:/zspace \
   --memory=512m \
   --cpus=1 \
-  lianjun007/zalbumsynctool:v1.0.1
+  lianjun007/zalbumsynctool:latest
 ```
 
 等待容器成功启动后日志输出`极相册同步工具服务器已启动`，然后前往浏览器输入部署设备 IP 和指定端口号（如 7777）进入 WebUI。
@@ -98,7 +98,7 @@ docker run -d -it \
   -v /本项目源代码存储目录:/app
   --memory=512m \
   --cpus=1 \
-  lianjun007/zalbumsynctool:v1.0.1
+  lianjun007/zalbumsynctool:latest
 ```
 
 然后运行下列命令（v1.0.0 不需要，当时没屏蔽 node_modules 文件夹）。
