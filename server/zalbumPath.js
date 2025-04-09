@@ -13,8 +13,8 @@ const zalbumDB = new sqlite3.Database(zalbumDBPath, (err) => {
 })
 
 // 获取极相册所有挂载的路径
-// isZspace参数代表查询后输出内容是否为zspace路径
-// 为false直接查询出来的是/tmp/zfsv3/nvme13，为true则是/zspace/data_nvme003这样的
+// isZspace 参数代表查询后输出内容是否为 zspace 路径
+// 为 false 直接查询出来的是 /tmp/zfsv3/nvme13，为 true 则是 /zspace/data_nvme003 这样的
 function getZalbumAllMountPath(isZspace = true) {
     return new Promise((resolve, reject) => {
         const query = `SELECT path, user_id FROM dirs`
@@ -36,7 +36,7 @@ function getZalbumAllMountPath(isZspace = true) {
     })
 }
 
-// 获取HEIC文件对应的MOV文件路径
+// 获取 HEIC 文件对应的 MOV 文件路径
 function getZalbumMovPath(sourceFilePath) {
     return new Promise((resolve, reject) => {
         const query = `SELECT ext FROM feeds WHERE path = ?`
@@ -45,32 +45,29 @@ function getZalbumMovPath(sourceFilePath) {
         zalbumDB.get(query, sourceFileZalbumPath, (err, row) => {
             if (err) {
                 console.error(`数据库查询错误: ${err.message}`)
-                reject(err) // 出错时通过 reject 返回
+                reject(err)
                 return
             }
             if (row && row.ext && row.ext.includes(".mov@")) {
                 const extList = row.ext.split("@")
-                const diskInfo = extList[0].split("%23")[0] // 提取磁盘名部分，去掉 %23 后面的内容
-                const diskPrefix = diskInfo.match(/^[a-zA-Z]+/)[0] // 提取字母部分 (e.g., "nvme")
-                const diskSuffix = diskInfo.match(/\d+$/)[0] // 提取数字部分 (e.g., "13")
-                // 生成 diskName (e.g., "/data_n003")
+                const diskInfo = extList[0].split("%23")[0]
+                const diskPrefix = diskInfo.match(/^[a-zA-Z]+/)[0]
+                const diskSuffix = diskInfo.match(/\d+$/)[0]
                 const adjustedDiskSuffix = (Number(diskSuffix) - 10).toString().padStart(3, "0")
                 const diskName = `/data_${diskPrefix[0]}${adjustedDiskSuffix}`
-                const movFileName = extList[extList.length - 2] // 获取倒数第二个子串作为 MOV 文件名
+                const movFileName = extList[extList.length - 2]
                 const subFolder = movFileName.slice(0, 2)
                 const movFilePath = path.join("/zspace", diskName, "/data/udata/real/.internal/AppleLivePhotoVideo", subFolder, movFileName)
 
-                // console.log(`MOV 文件路径: ${movFilePath}`)
-                resolve(movFilePath) // 成功时返回 MOV 文件路径
+                resolve(movFilePath)
             } else {
-                // console.error(`未找到对应的 MOV 文件: ${sourceFileZalbumPath}`)
-                resolve(null) // 未找到时返回 null
+                resolve(null)
             }
         })
     })
 }
 
-// zspace路径转换为tmp路径
+// zspace 路径转换为 tmp 路径
 function zspaceTotmp(path) {
     const regex = /\/zspace\/data_([ns])(\d{3})\/data\/udata\/real\/(\w+)\/(.*)/
 
@@ -81,7 +78,7 @@ function zspaceTotmp(path) {
     })
 }
 
-// tmp路径转换为zspace路径
+// tmp 路径转换为 zspace 路径
 function tempToZspace(path) {
     const regex = /\/tmp\/zfsv3\/([a-z]+)(\d{2})\/(\d{11}[a-zA-Z]*)\/data\/(.*)/
 
