@@ -35,7 +35,7 @@ select {
     margin-right: -5px;
     margin-left: 15px;
     background-color: #FFFFFF00;
-    background-image: url('/client/image/chevron.up.chevron.down.png');
+    background-image: url("/client/image/chevron.up.chevron.down.png");
     background-repeat: no-repeat;
     background-position: right 5px center;
     background-size: 9px;
@@ -55,7 +55,7 @@ input {
     font-size: 17px;
     margin: 0 -5px;
     padding: 5px;
-    border-radius: 8px
+    border-radius: 8px;
 }
 
 textarea {

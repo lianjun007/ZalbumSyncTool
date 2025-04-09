@@ -1,117 +1,117 @@
 // WebSocket 连接状态展示控件
-const statusUnlink = document.getElementById("statusUnlink");
-const statusLink = document.getElementById("statusLink");
+const statusUnlink = document.getElementById("statusUnlink")
+const statusLink = document.getElementById("statusLink")
 function statusLinkDisplay(isLink) {
     if (isLink) {
-        statusLink.style.display = "block";
-        statusUnlink.style.display = "none";
+        statusLink.style.display = "block"
+        statusUnlink.style.display = "none"
     } else {
-        statusLink.style.display = "none";
-        statusUnlink.style.display = "block";
+        statusLink.style.display = "none"
+        statusUnlink.style.display = "block"
     }
 }
 
-let linkRara = 0;
-let webSocketclient = null;
-const syncToggle = document.getElementById("syncToggle");
-const targetStatistics = document.getElementById("targetStatistics");
+let linkRara = 0
+let webSocketclient = null
+const syncToggle = document.getElementById("syncToggle")
+const targetStatistics = document.getElementById("targetStatistics")
 
 // WebSocket 连接函数
 async function connectWebSocket() {
-    const webSocketclientUrl = window.location.href.replace("http", "ws");
+    const webSocketclientUrl = window.location.href.replace("http", "ws")
 
     if (webSocketclient) {
-        webSocketclient.close();
+        webSocketclient.close()
     }
 
-    webSocketclient = new WebSocket(webSocketclientUrl);
+    webSocketclient = new WebSocket(webSocketclientUrl)
 
     return new Promise((resolve, reject) => {
         webSocketclient.onopen = () => {
-            linkRara = 0;
-            getConfigExtensionList();
-            getConfigTargetPath();
-            getConfigSyncMode();
-            resolve();
-        };
+            linkRara = 0
+            getConfigExtensionList()
+            getConfigTargetPath()
+            getConfigSyncMode()
+            resolve()
+        }
 
         webSocketclient.onmessage = (event) => {
-            const message = event.data;
-            handleWebSocketMessage(message);
-        };
+            const message = event.data
+            handleWebSocketMessage(message)
+        }
 
         webSocketclient.onclose = () => {
-            statusLinkDisplay(false);
-            reject(new Error("WebSocket 连接关闭"));
-        };
+            statusLinkDisplay(false)
+            reject(new Error("WebSocket 连接关闭"))
+        }
 
         webSocketclient.onerror = (error) => {
-            reject(error);
-        };
-    });
+            reject(error)
+        }
+    })
 }
 
 // 处理 WebSocket 消息
 function handleWebSocketMessage(message) {
     switch (message) {
         case "refresh":
-            getConfigExtensionList();
-            updateConfigTargetPath();
-            getConfigSyncMode();
-            break;
+            getConfigExtensionList()
+            updateConfigTargetPath()
+            getConfigSyncMode()
+            break
         case "online":
-            linkRara = 0;
-            statusLinkDisplay(true);
-            break;
+            linkRara = 0
+            statusLinkDisplay(true)
+            break
         case "openSync":
-            syncToggle.checked = true;
-            break;
+            syncToggle.checked = true
+            break
         case "closeSync":
-            syncToggle.checked = false;
-            break;
+            syncToggle.checked = false
+            break
         case "targetStatisticsOpen":
-            targetStatistics.checked = true;
-            break;
+            targetStatistics.checked = true
+            break
         case "targetStatisticsClose":
-            targetStatistics.checked = false;
-            break;
+            targetStatistics.checked = false
+            break
         default:
-            console.log("未知消息:", message);
-            break;
+            console.log("未知消息:", message)
+            break
     }
 }
 
 // 重连函数
 async function reconnect() {
-    linkRara++;
+    linkRara++
     if (linkRara >= 7) {
-        statusLinkDisplay(false);
+        statusLinkDisplay(false)
         try {
-            await connectWebSocket();
+            await connectWebSocket()
         } catch (error) {
-            console.error("WebSocket 连接失败:", error);
+            console.error("WebSocket 连接失败:", error)
         }
     }
 }
-setInterval(reconnect, 1000);
+setInterval(reconnect, 1000)
 
 // 同步开关控制
 syncToggle.addEventListener("change", () => {
     const message = syncToggle.checked
         ? JSON.stringify({ action: "startSync" })
-        : JSON.stringify({ action: "stopSync" });
+        : JSON.stringify({ action: "stopSync" })
 
-    webSocketclient.send(message);
-});
+    webSocketclient.send(message)
+})
 
 // 目标路径统计开关控制
 targetStatistics.addEventListener("change", () => {
     const message = targetStatistics.checked
         ? JSON.stringify({ action: "targetStatisticsOpen" })
-        : JSON.stringify({ action: "targetStatisticsClose" });
+        : JSON.stringify({ action: "targetStatisticsClose" })
 
-    webSocketclient.send(message);
-});
+    webSocketclient.send(message)
+})
 
 // 初始化WebSocket连接
-connectWebSocket();
+connectWebSocket()
