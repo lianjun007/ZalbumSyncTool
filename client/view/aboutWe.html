@@ -72,21 +72,21 @@
 
     <script>
         document.getElementById("zalbumSyncTool").addEventListener("click", () => {
-            fetchdata("zalbumsynctool", "homepage");
-        });
+            fetchdata("zalbumsynctool", "homepage")
+        })
         document.getElementById("gitHubPage").addEventListener("click", () => {
-            fetchdata("zalbumsynctool", "githubpage");
-        });
+            fetchdata("zalbumsynctool", "githubpage")
+        })
         document.getElementById("LianJunHomePage").addEventListener("click", () => {
-            fetchdata("lianjun", "homepage");
-        });
+            fetchdata("lianjun", "homepage")
+        })
 
         function fetchdata(para, para2) {
             fetch("https://fetchdata.lianjun.me")
             .then(response => response.json())
             .then(data => {
-                window.location.assign(data[para][para2]);
-            });
+                window.location.assign(data[para][para2])
+            })
         }
     </script>
 
