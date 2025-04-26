@@ -92,7 +92,7 @@
     </div>
 
     <!-- 设置模块说明 -->
-    <p class="captionTop">同文件系统（参照“极相册挂载路径“选择）采用硬链接，否则复制。添加空（非空格）扩展名同步无扩展名文件，清空扩展则为全文件同步，双向同步模式敬请期待。</p>
+    <p class="captionTop">同文件系统（参照“极相册挂载路径“选择）采用硬链接，否则复制。添加空（非空格）扩展名同步无扩展名文件，清空扩展则为全文件同步，双向同步模式暂时无效。</p>
 
     <p class="title" style="font-size: 28px;">状态和日志</p>
 
@@ -184,16 +184,16 @@
             <p class="text">下载日志</p>
         </button>
     </div>
-    
+
     <!-- 日志模块说明 -->
-    <p class="captionTop">日志保留条数暂时无法在前端修改，限制为 1000 条，敬请期待。</p>
+    <p class="captionTop">暂时无法限制日志保留条数。</p>
 
     <!-- 关于我们 -->
     <div class="module" style="margin-top: 18px;">
         <div id="aboutWe" class="listRow">
             <p class="text">关于我们</p>
             <div class="listRowEndButton">
-                <p class="rightText">1.0.0</p>
+                <p class="rightText">1.0.2</p>
                 <img src="/client/image/chevron.forward.png" class="listRowEndButtonImage"
                     style="width: 8px; margin-right: 0; margin-left: 5px">
             </div>
@@ -203,18 +203,19 @@
     <p id="statusUnlink" class="link" style="color: red;">未连接</p>
     <p id="statusLink" class="link" style="color: #31D74A; display: none;">已连接</p>
 
-    <script src="/client/script/style.js"></script>
-    <script src="/client/script/webSocket.js"></script>
     <script>
         document.getElementById("aboutWe").addEventListener("click", () => {
             window.location.assign("/client/view/aboutWe.html")
         })       
     </script>
 
+    <script src="/client/script/style.js"></script>
+
     <script src="/client/script/config/zalbumMountPath.js"></script>
     <script src="/client/script/config/targetPath.js"></script>
     <script src="/client/script/config/syncMode.js"></script>
     <script src="/client/script/config/extension.js"></script>
+    <script src="/client/script/webSocket.js"></script>
 
     <script src="/client/script/log/statistics.js"></script>
     <script src="/client/script/log/log.js"></script>

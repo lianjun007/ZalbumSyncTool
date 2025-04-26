@@ -27,15 +27,15 @@
     </div>
 
     <div class="module" style="margin-top: 20px;">
-        <div class="listRow">
+        <div id="getLatestVersion" class="listRow">
             <p class="text">版本号</p>
-            <p class="rightText">1.0.0</p>
+            <p id="latestVersion" class="rightText">1.0.2（检查更新）</p>
         </div>
         <hr>
 
         <div class="listRow">
             <p class="text">发行日期</p>
-            <p class="rightText">2025年1月14日</p>
+            <p class="rightText">2025年4月26日</p>
         </div>
         <hr>
 
@@ -58,6 +58,7 @@
             </div>
         </div>
     </div>
+    <p class="captionTop">更新需前往项目主页获取最新版本的部署方法。</p>
 
     <div class="module" style="margin-top: 20px;">
         <div id="LianJunHomePage" class="listRow">
@@ -71,6 +72,9 @@
     </div>
 
     <script>
+        document.getElementById("getLatestVersion").addEventListener("click", () => {
+            fetchdata("zalbumsynctool", "latestVersion", true)
+        })
         document.getElementById("zalbumSyncTool").addEventListener("click", () => {
             fetchdata("zalbumsynctool", "homepage")
         })
@@ -81,12 +85,21 @@
             fetchdata("lianjun", "homepage")
         })
 
-        function fetchdata(para, para2) {
+        function fetchdata(para, para2, isRequstPara = false) {
             fetch("https://fetchdata.lianjun.me")
-            .then(response => response.json())
-            .then(data => {
-                window.location.assign(data[para][para2])
-            })
+                .then(response => response.json())
+                .then(data => {
+                    if (isRequstPara) {
+                        if (data[para][para2] === "1.0.2") {
+                            document.getElementById("latestVersion").textContent = `1.0.2（最新）`
+                        }
+                        document.getElementById("latestVersion").textContent = `1.0.2（新：${data[para][para2]}）`
+                    } else {
+                        window.location.assign(data[para][para2])
+                    }
+                })
+
+            return false
         }
     </script>
 

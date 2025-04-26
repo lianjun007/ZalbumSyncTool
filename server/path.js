@@ -5,7 +5,7 @@ const fs = require("fs")
 
 const { getZalbumAllMountPath } = require("./zalbumPath")
 
-// 路由：根据传入路径返回子目录
+// 路由：根据传入路径返回所有子路径
 router.get("/getSubPaths", (req, res) => {
     const basePath = "."
     const requestedPath = req.query.path || ""
@@ -34,7 +34,7 @@ function getSubPaths(dirPath) {
             }
         })
     } catch (err) {
-        console.error("读取目录错误：", err)
+        console.error("读取路径错误：", err)
     }
     return subDirectories
 }

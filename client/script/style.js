@@ -19,7 +19,7 @@ if (isWebkitAppleBrowser()) {
     })
 }
 
-// 美化目录
+// 美化路径
 function adjustSlashes(text) {
     if (text === "/") return "/"
 

@@ -37,14 +37,15 @@ getConfigExtensionList()
 
 function renderExtensionShowList() {
     if (extensions.length === 0) {
-        extensionShowList.innerHTML = `<p class="subRightText" style="margin: 0">全文件同步</p>`
+        extensionShowList.innerHTML = `<p class="subRightText" style="margin: 0;">全文件同步</p>`
     } else {
         extensionShowList.innerHTML = extensions
             .map(ext => `
-            <div class="extensionShowBox" data-ext="${ext}">
-                <p style="font-size: 13px margin: 0px">${ext}</p>
-                <button class="extensionBoxDeleteButton" style="display: ${deleteButtonDisplay}"></button>
-            </div>`)
+                <div class="extensionShowBox" data-ext="${ext}">
+                    <p style="font-size: 13px; margin: 0px;">${ext}</p>
+                    <button class="extensionBoxDeleteButton" style="display: ${deleteButtonDisplay}"></button>
+                </div>
+            `)
             .join("")
     }
 }

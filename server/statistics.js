@@ -37,7 +37,7 @@ async function analyzeDirectories() {
 
     for (const dirPath of directories.map(item => item.path)) {
         if (!fs.existsSync(dirPath)) {
-            console.error(`目录不存在或不是有效目录: ${dirPath}`)
+            console.error(`路径不存在或不是有效路径: ${dirPath}`)
             continue
         }
 
@@ -54,6 +54,12 @@ async function analyzeDirectories() {
 
         for (const entry of entries) {
             const fullPath = path.join(currentPath, entry.name)
+
+            // 处理路径不存在的情况，极空间交流群群友 Kelsen 遇到的问题
+            if (!fs.existsSync(fullPath)) {
+                console.error(`${currentPath} 下的路径：${fullPath} 不存在或不是有效路径`)
+                continue
+            }
 
             if (entry.isDirectory()) {
                 folderCount++
@@ -88,6 +94,12 @@ async function analyzeDirectories() {
 
         for (const entry of entries) {
             const fullPath = path.join(currentPath, entry.name)
+
+            // 处理路径不存在的情况，极空间交流群群友 Kelsen 遇到的问题
+            if (!fs.existsSync(fullPath)) {
+                console.error(`${currentPath} 下的路径：${fullPath} 不存在或不是有效路径`)
+                continue
+            }
 
             if (entry.isDirectory()) {
                 folderCount2++

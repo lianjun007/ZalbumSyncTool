@@ -17,7 +17,7 @@ const zalbumDB = new sqlite3.Database(zalbumDBPath, (err) => {
 // 为 false 直接查询出来的是 /tmp/zfsv3/nvme13，为 true 则是 /zspace/data_nvme003 这样的
 function getZalbumAllMountPath(isZspace = true) {
     return new Promise((resolve, reject) => {
-        const query = `SELECT path, user_id FROM dirs`
+        const query = `SELECT path, user_id FROM dirs WHERE is_del = 0`
         zalbumDB.all(query, [], (err, rows) => {
             if (err) {
                 console.error(`数据库查询错误: ${err.message}`)

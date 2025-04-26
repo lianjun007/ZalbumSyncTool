@@ -1,7 +1,7 @@
 # 使用 Node.js 基础镜像
 FROM node:23.2.0
 
-# 设置工作目录
+# 设置工作路径
 WORKDIR /
 
 # 复制 package.json 和 package-lock.json

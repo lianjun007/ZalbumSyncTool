@@ -46,16 +46,16 @@ async function fetchPath() {
                     const divRow1 = document.createElement("div")
                     divRow1.classList.add("listRow")
                     divRow1.innerHTML = `
-                        <p class="text" style="width: 200px">用户 ID</p>
-                        <p class="text" style="width: 100% text-align: right">地址</p>
+                        <p class="text" style="width: 200px;">用户 ID</p>
+                        <p class="text" style="width: 100%; text-align: right;">地址</p>
                         `
                     zalbumPathShowList.appendChild(divRow1)
                 }
 
                 if (index == data.length - 1) {
                     divRow.innerHTML = `
-                        <p class="subRightText" style="width: 200px">${item.user_id}</p>
-                        <p class="subRightText zalbumMountPath" ">${adjustSlashes(item.path)}</p>
+                        <p class="subRightText" style="width: 200px;">${item.user_id}</p>
+                        <p class="subRightText zalbumMountPath">${adjustSlashes(item.path)}</p>
                         `
                     zalbumPathShowList.appendChild(divRow)
                     const hr = document.createElement("hr")
@@ -63,7 +63,7 @@ async function fetchPath() {
                     zalbumPathShowList.appendChild(hr)
                 } else {
                     divRow.innerHTML = `
-                        <p class="subRightText" style="width: 200px">${item.user_id}</p>
+                        <p class="subRightText" style="width: 200px;">${item.user_id}</p>
                         <p class="subRightText zalbumMountPath">${adjustSlashes(item.path)}</p>
                         `
                     zalbumPathShowList.appendChild(divRow)

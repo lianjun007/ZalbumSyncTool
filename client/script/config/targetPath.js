@@ -9,7 +9,7 @@ async function getConfigTargetPath() {
 }
 getConfigTargetPath()
 
-// 根据选择更新路径并获取下一级目录
+// 根据选择更新路径并获取下一级路径
 async function fetchSubPaths() {
     const res = await fetch("/config/get")
     const config = await res.json()

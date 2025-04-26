@@ -80,13 +80,13 @@ docker run -d -it \
 
 等待容器成功启动后日志输出 `极相册同步工具服务器已启动，端口 7777`，然后前往浏览器输入部署设备 IP 和指定端口号（如 7777）进入 WebUI。
 
-如果无法下载镜像（比如因为网络问题），可以前往 Release 界面下载其中的 ZalbumSyncTool_v1.0.1.tar.gz 文件，使用 `gunzip /该文件目录` 解压为 ZalbumSyncTool_v1.0.1.tar 后直接导入镜像到极空间使用。
+如果无法下载镜像（比如因为网络问题），可以前往 Release 界面下载其中的 ZalbumSyncTool_v1.0.1.tar.gz 文件，使用 `gunzip /该文件路径` 解压为 ZalbumSyncTool_v1.0.1.tar 后直接导入镜像到极空间使用。
 
 视频教程链接：[抖音](https://v.douyin.com/iyKUUhDP/)、[哔哩哔哩](https://www.bilibili.com/video/BV1mcceePEjy?vd_source=cdd3f9f3f8659d99f09501f1764b7438)
 
 ## Node 部署
 
-极空间打开 SSH 功能并且使用工具连接，然后使用 `sudo -i` 命令并且输入管理员账户密码进行提权，然后下载源代码放入极空间中，在 docker 仓库搜索并下载 Node 镜像，修改下列命令并运行。
+极空间打开 SSH 功能并且使用工具连接，然后使用 `sudo -i` 命令并且输入管理员账户密码进行提权，然后下载源代码放入极空间中，修改下列命令并运行。
 
 ```sh
 docker run -d -it \
@@ -97,21 +97,22 @@ docker run -d -it \
   --device /dev/fuse:/dev/fuse \
   -p 7777:7777 \
   -v /:/zspace \
-  -v /本项目源代码存储目录:/app
+  -v /本项目源代码存储路径:/app
   --memory=512m \
   --cpus=1 \
-  lianjun007/zalbumsynctool:latest
+  node:latest
 ```
 
 然后运行下列命令（v1.0.0 不需要，当时没屏蔽 node_modules 文件夹）。
 
 ```sh
-npm install
+docker exec -it Node_ZalbumSyncTool /bin/bash # 或者图形化界面中点击 ssh
+cd /app && npm install && cd / && node /app/server.js
 ```
-源代码目录中出现 node_modules 文件夹即可运行下列命令。
+源代码目录下出现 node_modules 文件夹即可，最后运行下列命令。
 
 ```sh
-node /app/server.js
+cd / && node /app/server.js
 ```
 
 等待控制台输出 `极相册同步工具服务器已启动，端口 7777`，然后前往浏览器输入部署设备 IP 和指定端口号（如 7777）进入 WebUI。

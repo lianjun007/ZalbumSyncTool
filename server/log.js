@@ -13,7 +13,7 @@ const logLevels = {
 }
 
 // 最大日志条数（超过此数量时清理旧日志）
-const MAX_LOG_LINES = 1000
+// const MAX_LOG_LINES = 1000
 
 // 格式化日期为：yyyy/MM/dd HH:mm:ss
 function formatDate(date) {
@@ -39,43 +39,44 @@ function getLogLineCount(callback) {
     })
 }
 
+// 性能问题，不能一边清理一边记录日志，后续优化日志模块吧
 // 清理旧日志，保留最新的日志条目
-function cleanOldLogs(callback) {
-    fs.readFile(logFilePath, "utf8", (err, data) => {
-        if (err) {
-            return callback(err)
-        }
+// function cleanOldLogs(callback) {
+//     fs.readFile(logFilePath, "utf8", (err, data) => {
+//         if (err) {
+//             return callback(err)
+//         }
 
-        const lines = data.split("\n")
+//         const lines = data.split("\n")
 
-        // 保留最新的 MAX_LOG_LINES 条日志
-        if (lines.length > MAX_LOG_LINES) {
-            const newData = lines.slice(lines.length - MAX_LOG_LINES).join("\n")
-            fs.writeFile(logFilePath, newData, callback)
-        } else {
-            callback()
-        }
-    })
-}
+//         // 保留最新的 MAX_LOG_LINES 条日志
+//         if (lines.length > MAX_LOG_LINES) {
+//             const newData = lines.slice(lines.length - MAX_LOG_LINES).join("\n")
+//             fs.writeFile(logFilePath, newData, callback)
+//         } else {
+//             callback()
+//         }
+//     })
+// }
 
 // 记录日志到文件
 function logToFile(message, level = logLevels.INFO) {
     const timestamp = formatDate(new Date())
     const logMessage = `[${level}] [${timestamp}] ${message}\n`
 
-    // 在记录日志之前，检查并清理旧日志
-    cleanOldLogs((err) => {
-        if (err) {
-            console.error("清理旧日志失败:", err)
-        }
+    // // 在记录日志之前，检查并清理旧日志
+    // cleanOldLogs((err) => {
+    //     if (err) {
+    //         console.error("清理旧日志失败:", err)
+    //     }
 
-        // 追加新的日志条目
-        fs.appendFile(logFilePath, logMessage, (err) => {
-            if (err) {
-                console.error("写入日志失败:", err)
-            }
-        })
+    //     // 追加新的日志条目
+    fs.appendFile(logFilePath, logMessage, (err) => {
+        if (err) {
+            console.error("写入日志失败:", err)
+        }
     })
+    // })
 }
 
 // 获取日志

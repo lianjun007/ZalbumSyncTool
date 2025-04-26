@@ -16,7 +16,7 @@ function writeConfig(config) {
 }
 
 // 文件同步逻辑
-function syncFile(zalbumMountPath, sourceFilePath, eventType) {
+async function syncFile(zalbumMountPath, sourceFilePath, eventType) {
     const config = readConfig()
     const relativePath = path.relative(zalbumMountPath, sourceFilePath)
     const targetFilePath = path.join(config.targetPath, path.basename(zalbumMountPath), relativePath)
@@ -24,50 +24,50 @@ function syncFile(zalbumMountPath, sourceFilePath, eventType) {
 
     if (config.extensions.includes(sourceFileExtension) || config.extensions.length === 0) {
         if (eventType === "add" || eventType === "change") {
-            createHardLinkOrCopy(sourceFilePath, targetFilePath)
+            await createHardLinkOrCopy(sourceFilePath, targetFilePath)
             if (sourceFileExtension === "HEIC") {
-                processHEICFile(zalbumMountPath, sourceFilePath)
+                await processHEICFile(zalbumMountPath, sourceFilePath)
             }
         } else if (eventType === "unlink") {
-            if (fs.existsSync(targetFilePath)) {
-                fs.rmSync(targetFilePath)
+            if (await fs.promises.access(targetFilePath).then(() => true).catch(() => false)) {
+                await fs.promises.rm(targetFilePath)
             }
             if (sourceFileExtension === "HEIC") {
-                const targetFileMovPath1 = replace(/\.heic/i, ".mov")
-                const targetFileMovPath2 = replace(/\.HEIC/i, ".MOV")
-                if (fs.existsSync(targetFileMovPath1)) {
-                    fs.rmSync(targetFileMovPath1)
-                } else if (fs.existsSync(targetFileMovPath2)) {
-                    fs.rmSync(targetFileMovPath2)
+                const targetFileMovPath1 = targetFilePath.replace(/\.heic/i, ".mov")
+                const targetFileMovPath2 = targetFilePath.replace(/\.HEIC/i, ".MOV")
+                if (await fs.promises.access(targetFileMovPath1).then(() => true).catch(() => false)) {
+                    await fs.promises.rm(targetFileMovPath1)
+                } else if (await fs.promises.access(targetFileMovPath2).then(() => true).catch(() => false)) {
+                    await fs.promises.rm(targetFileMovPath2)
                 }
             }
         } else if (eventType === "addDir") {
-            fs.mkdirSync(sourceFilePath, { recursive: true })
+            await fs.promises.mkdir(sourceFilePath, { recursive: true })
         } else if (eventType === "unlinkDir") {
-            fs.rmSync(targetFilePath, { recursive: true })
+            await fs.promises.rm(targetFilePath, { recursive: true })
         }
     }
 }
 
 // 采用硬链接或复制备份文件
-function createHardLinkOrCopy(sourceFilePath, targetFilePath) {
+async function createHardLinkOrCopy(sourceFilePath, targetFilePath) {
     try {
         const targetFileparentPath = path.dirname(targetFilePath) // 获取目标文件的父目录路径
 
-        if (!fs.existsSync(targetFileparentPath)) {
-            fs.mkdirSync(targetFileparentPath, { recursive: true })
+        if (!(await fs.promises.access(targetFileparentPath).then(() => true).catch(() => false))) {
+            await fs.promises.mkdir(targetFileparentPath, { recursive: true })
         }
 
-        if (!fs.existsSync(sourceFilePath)) {
+        if (!(await fs.promises.access(sourceFilePath).then(() => true).catch(() => false))) {
             logToFile(`源文件不存在: ${sourceFilePath}`, logLevels.WARN)
             return
         }
 
-        if (fs.existsSync(targetFilePath)) {
-            const sourceStats = fs.statSync(sourceFilePath)
-            const targetStats = fs.statSync(targetFilePath)
+        if (await fs.promises.access(targetFilePath).then(() => true).catch(() => false)) {
+            const sourceStats = await fs.promises.stat(sourceFilePath)
+            const targetStats = await fs.promises.stat(targetFilePath)
             if (sourceStats.ino !== targetStats.ino) {
-                fs.copyFileSync(sourceFilePath, targetFilePath)
+                await fs.promises.copyFile(sourceFilePath, targetFilePath)
                 logToFile(`目标文件替换: ${targetFilePath}`, logLevels.INFO)
             }
             logToFile(`目标文件已存在: ${targetFilePath}`, logLevels.INFO)
@@ -76,11 +76,11 @@ function createHardLinkOrCopy(sourceFilePath, targetFilePath) {
 
         try {
             // 尝试创建硬链接
-            fs.linkSync(sourceFilePath, targetFilePath)
+            await fs.promises.link(sourceFilePath, targetFilePath)
             logToFile(`成功创建硬链接: ${targetFilePath}`, logLevels.INFO)
         } catch (linkError) {
             // 硬链接失败时，复制文件
-            fs.copyFileSync(sourceFilePath, targetFilePath)
+            await fs.promises.copyFile(sourceFilePath, targetFilePath)
             logToFile(`成功复制文件: ${targetFilePath}`, logLevels.INFO)
         }
     } catch (err) {
@@ -93,7 +93,7 @@ async function processHEICFile(zalbumMountPath, sourceFilePath) {
     const config = readConfig()
 
     const movFilePath = await getZalbumMovPath(sourceFilePath)  // 获取 MOV 文件路径
-    
+
     if (fs.existsSync(movFilePath)) {
         const targetDir = path.dirname(sourceFilePath.replace(zalbumMountPath, config.targetPath + "/" + path.basename(zalbumMountPath)))
 
