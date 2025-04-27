@@ -15,7 +15,7 @@ app.use("/statistics", require("./server/statistics"))
 const { router } = require("./server/log")
 app.use("/log", router)
 
-const server = app.listen(7777, () => console.log("极相册同步工具服务器已启动，端口 7777"))
+const server = app.listen(7777, () => console.log("极相册同步工具服务器已启动"))
 const webSocketServer = new webSocket.Server({ server })
 
 // 页面路由
