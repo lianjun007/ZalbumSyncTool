@@ -27,9 +27,12 @@
     </div>
 
     <div class="module" style="margin-top: 20px;">
-        <div id="getLatestVersion" class="listRow">
+        <div class="listRow">
             <p class="text">版本号</p>
-            <p id="latestVersion" class="rightText">1.0.2（检查更新）</p>
+            <div class="rightText" style="display: flex; align-items: center;">
+                <p style="margin: 0px;">1.0.2</p>
+                <div id="getLatestVersion" class="checkUpdateButton">检查新版本</div>
+            </div>
         </div>
         <hr>
 
@@ -58,7 +61,7 @@
             </div>
         </div>
     </div>
-    <p class="captionTop">更新需前往项目主页获取最新版本的部署方法。</p>
+    <p class="captionTop">无法直接更新，需前往项目主页获取最新版本的部署方法。</p>
 
     <div class="module" style="margin-top: 20px;">
         <div id="LianJunHomePage" class="listRow">
@@ -91,9 +94,12 @@
                 .then(data => {
                     if (isRequstPara) {
                         if (data[para][para2] === "1.0.2") {
-                            document.getElementById("latestVersion").textContent = `1.0.2（最新）`
+                            document.getElementById("getLatestVersion").textContent = "已是最新"
+                            document.getElementById("getLatestVersion").style.backgroundColor = "#4BB321"
+                        } else {
+                            document.getElementById("getLatestVersion").textContent = `${data[para][para2]}`
+                            document.getElementById("getLatestVersion").style.backgroundColor = "#B33B2B"
                         }
-                        document.getElementById("latestVersion").textContent = `1.0.2（新：${data[para][para2]}）`
                     } else {
                         window.location.assign(data[para][para2])
                     }

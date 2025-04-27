@@ -154,3 +154,15 @@ textarea {
     text-align: center;
     font-size: 12px;
 }
+
+/* 检查更新按钮样式 */
+.checkUpdateButton {
+    background-color: rgb(60, 84, 203);
+    color: white;
+    border-radius: 12px;
+    margin-left: 5px;
+    height: 24px;
+    font-size: 14px;
+    align-content: center;
+    padding-inline: 10px;
+}
